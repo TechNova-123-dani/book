@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Receipt - BlueLodge{% endblock %}
+{% block content %}
+<h2>Receipt</h2>
+<p><strong>Receipt ID:</strong> {{ order.mpesa_receipt if order.paid else "UNPAID" }}</p>
+<p><strong>Order ID:</strong> {{ order.id }}</p>
+<p><strong>Name:</strong> {{ order.name }}</p>
+<p><strong>Phone:</strong> {{ order.phone }}</p>
+<p><strong>Beds:</strong> {{ order.beds }}</p>
+<p><strong>Nights:</strong> {{ order.nights }}</p>
+
+<h4>Breakdown</h4>
+<ul>
+  <li>Room: KES {{ order.room_price }}</li>
+  <li>Food: KES {{ order.totals.food }}</li>
+  <li>Drinks: KES {{ order.totals.drinks }}</li>
+  <li>Entertainment: KES {{ order.totals.entertainment }}</li>
+</ul>
+
+<h3>Total Paid: KES {{ order.totals.total }}</h3>
+{% if order.paid %}
+  <p style="color:green">Payment confirmed at {{ order.paid_at }} (UTC).</p>
+{% else %}
+  <p style="color:orange">Not yet paid.</p>
+{% endif %}
+<button onclick="window.print()">Print / Save PDF</button>
+{% endblock %}

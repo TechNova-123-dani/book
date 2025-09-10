@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Rooms - BlueLodge{% endblock %}
+{% block content %}
+<h2>Choose a Room</h2>
+<div class="room-list">
+  {% for r in room_options %}
+  <div class="room-card">
+    <img src="static/images/lAOpoPYP.jpg" alt="Room">
+    <h3>{{ r.title }}</h3>
+    <p>Price per night: KES {{ r.price }}</p>
+    <form action="{{ url_for('checkout') }}" method="post" class="inline-form">
+      <input type="hidden" name="beds" value="{{ r.beds }}">
+      <label>Nights: <input type="number" name="nights" value="1" min="1"></label>
+      <label>Name: <input type="text" name="name" required></label>
+      <label>Phone (07XX...): <input type="text" name="phone" required></label>
+
+      <h4>Extras</h4>
+      <div>
+        <strong>Food</strong><br>
+        {% for k,f in []|list %}{% endfor %} <!-- placeholder -->
+      </div>
+      <button class="btn">Proceed to Checkout</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+<p>Or <a href="{{ url_for('index') }}">view services</a> and select extras on checkout page.</p>
+{% endblock %}

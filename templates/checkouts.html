@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Checkout - BlueLodge{% endblock %}
+{% block content %}
+<h2>Checkout</h2>
+
+<form id="checkout-form" method="post" action="{{ url_for('checkout') }}">
+  <!-- This page was rendered by server already with order object -->
+</form>
+
+<div class="order-summary">
+  <h3>Order summary</h3>
+  <p><strong>Name:</strong> {{ order.name }}</p>
+  <p><strong>Phone:</strong> {{ order.phone }}</p>
+  <p><strong>Room:</strong> {{ order.beds }} beds × {{ order.nights }} night(s) — KES {{ order.room_price }}</p>
+
+  {% if order.food_items %}
+    <h4>Food</h4>
+    <ul>
+    {% for f in order.food_items %}
+      <li>{{ f.name }} — KES {{ f.price }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if order.drink_items %}
+    <h4>Drinks</h4>
+    <ul>
+    {% for d in order.drink_items %}
+      <li>{{ d.name }} — KES {{ d.price }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if order.ent_items %}
+    <h4>Entertainment</h4>
+    <ul>
+    {% for e in order.ent_items %}
+      <li>{{ e.name }} — KES {{ e.price }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+  <h3>Total: KES {{ order.totals.total }}</h3>
+
+  <button id="pay-mpesa" class="btn" data-order-id="{{ order.id }}" data-phone="{{ order.phone }}">Pay with M-Pesa (simulate)</button>
+
+  <div id="pay-result" style="margin-top:10px;"></div>
+</div>
+
+<script>
+document.getElementById('pay-mpesa').addEventListener('click', async function(){
+  const orderId = this.dataset.orderId;
+  const phone = this.dataset.phone;
+  const res = await fetch('/simulate_mpesa', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({order_id: orderId, phone})
+  });
+  const data = await res.json();
+  const el = document.getElementById('pay-result');
+  if (data.status === 'success') {
+    el.innerHTML = `<p style="color:green">Payment success! Receipt: ${data.receipt} <br><a href="/receipt/${data.order_id}">View receipt</a></p>`;
+  } else {
+    el.innerHTML = `<p style="color:red">Payment failed: ${data.message}</p>`;
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Home - BlueLodge{% endblock %}
+{% block content %}
+<section class="hero">
+  <img src="static/images/image of a 5 star hotel.jpg" alt="Hotel" class="hero-img">
+  <div class="hero-text">
+    <h2>Welcome to BlueLodge</h2>
+    <p>Book comfortable rooms, order food & drinks, and pay via M-Pesa.</p>
+    <a href="{{ url_for('rooms') }}" class="btn">Book a Room</a>
+  </div>
+</section>
+<section class="horizontal-gallery">
+  <div class="gallery-item">
+    <img src="{{ url_for('static', filename='images/Beef fry Ugali and skumawiki.jpg') }}" alt="Ugali with Beef">
+    <h4>Ugali & Beef</h4>
+    <p>KES 450</p>
+  </div>
+
+  <div class="gallery-item">
+    <img src="{{ url_for('static', filename='images/D489W_cz.jpg') }}" alt="Chicken Fry">
+    <h4>Chicken Fry</h4>
+    <p>KES 600</p>
+  </div>
+
+  <div class="gallery-item">
+    <img src="{{ url_for('static', filename='images/dvlov.jpg') }}" alt="2-Bed Room">
+    <h4>2-Bed Room</h4>
+    <p>KES 1200</p>
+  </div>
+
+  <div class="gallery-item">
+    <img src="{{ url_for('static', filename='images/Triple room.jpg') }}" alt="3-Bed Room">
+    <h4>3-Bed Room</h4>
+    <p>KES 1600</p>
+  </div>
+</section>
+
+<section id="services" class="services">
+  <h3>Services</h3>
+      <h4>Food</h4>
+      <ul>
+        {% for k, f in food_menu.items() %}
+          <li>{{ f.name }} — KES {{ f.price }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card">
+      <img src="static/images/My top 3 - Solo, Coke, Fanta.jpg" alt="Drinks">
+      <h4>Drinks</h4>
+      <ul>
+        {% for k, d in drink_menu.items() %}
+          <li>{{ d.name }} — KES {{ d.price }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card">
+      <img src="static/images/X_r9BEXz.jpg" alt="Entertainment">
+      <h4>Entertainment</h4>
+      <ul>
+        {% for k, e in entertainment.items() %}
+          <li>{{ e.name }} — KES {{ e.price }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}
